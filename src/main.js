@@ -1,4 +1,3 @@
-const rtm = require('./rtm.js');
 const stats = require('./stats.js');
 
 const io = require('socket.io')();
