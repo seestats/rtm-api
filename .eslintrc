@@ -1,0 +1,15 @@
+{
+  "extends": "airbnb/base",
+
+  "rules": {
+    "no-console": 0
+  },
+    "globals": {
+      "describe",
+      "it",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach"
+    }
+}
