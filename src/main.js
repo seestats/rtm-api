@@ -11,7 +11,7 @@ function main () {
 
   io.on('connection', (socket) => {
     socket.on('get_event_count', (data) => {
-      statsClient.startFetchingStats(socket);
+      statsClient.startFetchingStats(socket, data);
     });
   });
   io.listen(3000);

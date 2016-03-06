@@ -13,23 +13,29 @@ function makeIndexName() {
   return 'see-stats-' + today;
 }
 
-function makeCountFilters() {
-  return {
-    index: makeIndexName(),
-    body: {
-      'query': {
-        'bool': {
-          'must': [{
-            'range': {
-              '@timestamp': {
-                'from': 'now-1s/s',
-                'to': 'now'
-              }
+function makeCountFilters(termFilter) {
+  const body = {
+    'query': {
+      'bool': {
+        'must': [{
+          'range': {
+            '@timestamp': {
+              'from': 'now-1s/s',
+              'to': 'now'
             }
-          }]
-        }
+          }
+        }]
       }
     }
+  };
+
+  if (termFilter) {
+    body['filter'] = {'term': termFilter};
+  }
+
+  return {
+    index: makeIndexName(),
+    body: body
   }
 }
 
@@ -46,14 +52,14 @@ class Client {
   /**
    * Fetches for new stats data every second.
    */
-  startFetchingStats(socket) {
+  startFetchingStats(socket, termFilter) {
     console.log('Start fetching');
 
-    setInterval(() => {this.fetchCount(socket);}, 1000);
+    setInterval(() => {this.fetchCount(socket, termFilter);}, 1000);
   }
 
-  fetchCount(socket) {
-    this.esConn.count(makeCountFilters(), (err, resp) => {
+  fetchCount(socket, termFilter) {
+    this.esConn.count(makeCountFilters(termFilter), (err, resp) => {
       if (err) {
         console.log('Failed to fetch count:', err);
         return;
