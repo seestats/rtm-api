@@ -17,14 +17,17 @@ function makeCountFilters(termFilter) {
   const body = {
     'query': {
       'bool': {
-        'must': [{
-          'range': {
-            '@timestamp': {
-              'from': 'now-1s/s',
-              'to': 'now'
+        'must': [
+          {
+            'range': {
+              '@timestamp': {
+                'from': 'now-1s/s',
+                'to': 'now'
+              }
             }
-          }
-        }]
+          },
+          {"filtered": {"filter": {"not": {"term": {"server_name": "hackergames" }}}}}
+        ]
       }
     }
   };
