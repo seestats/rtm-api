@@ -25,8 +25,7 @@ function makeCountFilters(termFilter) {
                 'to': 'now'
               }
             }
-          },
-          {"filtered": {"filter": {"not": {"term": {"server_name": "hackergames" }}}}}
+          }
         ]
       }
     }
